@@ -54,9 +54,11 @@ function makeGuess(){
 function reset(){
     guessBtn.disables = true;
     guess.value = "";
-    guess.placeholder = "";
     guess.disabled = true;
     playBtn.disabled = false;
+    progressBar.style.display = 'none';
+    hintSection.style.display = 'none';
+    
     for(let i=0; i< levelArr.length; i++){
         levelArr[i].disabled = false;
     }
@@ -68,7 +70,6 @@ function updateScore(){
     scoreArr.sort((a, b) => a - b); // sorts accending
     // leaderboard
     const lb = document.getElementsByName("leaderboard");
-    
     for(let i=0; i<scoreArr.length; i++){
         sum += scoreArr[i];
         if(i < lb.length){
