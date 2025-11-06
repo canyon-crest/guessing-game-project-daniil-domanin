@@ -2,32 +2,181 @@
 <html>
   <head>
     <title>JavaScript Number Guessing Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      
+      #nameInput, #gameArea {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      
+      h3 {
+        color: #333;
+        border-bottom: 2px solid #4CAF50;
+        padding-bottom: 8px;
+        margin-top: 20px;
+      }
+      
+      input[type="text"], input[type="number"] {
+        padding: 8px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        margin: 5px;
+      }
+      
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 5px;
+      }
+      
+      button:hover {
+        background-color: #45a049;
+      }
+      
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+      
+      #progressBar {
+        background: #f0f0f0;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+        margin: 10px 0;
+      }
+      
+      #hintSection {
+        background: #fff3cd;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ffc107;
+        margin: 10px 0;
+      }
+      
+      #streak, #achievements {
+        background: #d4edda;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #28a745;
+        margin: 5px 0;
+      }
+      
+      #challengeSetup {
+        background: #d1ecf1;
+        padding: 15px;
+        border-radius: 8px;
+        border: 2px solid #17a2b8;
+        margin-top: 10px;
+      }
+      
+      ol {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+      }
+      
+      select {
+        padding: 5px 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        background: white;
+        margin: 10px 0;
+      }
+      
+      #date {
+        text-align: center;
+        font-weight: bold;
+        color: #555;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      
+      label {
+        margin: 0 10px 0 5px;
+      }
+    </style>
     <script src="script.js" defer></script>
   </head>
   <body>
     <p id="date"></p>
 
-    <h3>Level</h3>
-    <input type="radio" name="level" id="e" value="3" checked><label for="e">Easy</label>
-    <input type="radio" name="level" id="m" value="10"><label for="m">Medium</label>
-    <input type="radio" name="level" id="h" value="100"><label for="h">Hard</label>
+    <div id="nameInput">
+      <label for="playerName">Enter your name: </label>
+      <input type="text" id="playerName">
+      <button id="submitName">Submit</button>
+    </div>
 
-    <button id="playBtn">Play</button>
+    <div id="gameArea" style="display:none;">
 
-    <h3 id="msg">Select a Level</h3>
-    <input type="text" id="guess" disabled>
-    <button id="guessBtn" disabled>Guess</button>
-    <button id="giveUpBtn" disabled>Give Up</button>
+      <label>Theme: </label>
+      <select id="themeSelect">
+      <option value="light">Light Mode</option>
+      <option value="dark">Dark Mode</option>
+      </select>
 
-    <h3>Stats</h3>
-    <p id="wins">Total wins: 0</p>
-    <p id="avgScore">Average Score: </p>
+      <h3>Level</h3>
+      <input type="radio" name="level" id="e" value="3" checked><label for="e">Easy</label>
+      <input type="radio" name="level" id="m" value="10"><label for="m">Medium</label>
+      <input type="radio" name="level" id="h" value="100"><label for="h">Hard</label>
 
-    <h3>Leaderboard</h3>
-    <ol>
-      <li name="leaderboard">100</li>
-      <li name="leaderboard">100</li>
-      <li name="leaderboard">100</li>
-    </ol>
+      <button id="playBtn">Play</button>
+
+      <h3 id="msg">Select a Level</h3>
+      
+      <div id="progressBar" style="display:none;">
+        <p id="rangeText"></p>
+      </div>
+
+      <input type="text" id="guess" disabled>
+      <button id="guessBtn" disabled>Guess</button>
+      <button id="giveUpBtn" disabled>Give Up</button>
+
+      <div id="hintSection" style="display:none;">
+        <button id="hintBtn">Get Hint (+2 penalty)</button>
+        <p id="hintText"></p>
+      </div>
+
+      <p id="streak">Streak: 0</p>
+      <p id="achievements"></p>
+
+      <h3>Stats</h3>
+      <p id="wins">Total wins: 0</p>
+      <p id="avgScore">Average Score: </p>
+      <p id="fastestGame">Fastest game: </p>
+      <p id="avgTime">Average time: </p>
+
+      <h3>Leaderboard</h3>
+      <ol>
+        <li name="leaderboard">100</li>
+        <li name="leaderboard">100</li>
+        <li name="leaderboard">100</li>
+      </ol>
+
+      <h3>Challenge Mode</h3>
+      <button id="challengeBtn">Start Challenge</button>
+      <div id="challengeSetup" style="display:none;">
+        <input type="number" id="customNumber" placeholder="Number">
+        <input type="number" id="maxGuesses" placeholder="Max guesses">
+        <button id="startChallengeBtn">Go</button>
+      </div>
+      <p id="challengeStatus"></p>
+    </div>
   </body>
 </html>
