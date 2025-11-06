@@ -216,6 +216,6 @@ function updateScore(gameTime){
     
     let avg = sum/scoreArr.length;
     avgScore.textContent = "Average Score: " + avg.toFixed(2);
-    fastestGame.textContent = "Fastest game: " + fastestTime + " sec";
+    fastest.textContent = "Fastest game: " + fastestTime + " sec";
     avgTime.textContent = "Average time: " + (totalGameTime / scoreArr.length).toFixed(1) + " sec";
 }
